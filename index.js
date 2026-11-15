@@ -20,6 +20,17 @@ const PORT = process.env.PORT || 3000;
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
+// Enable CORS for external access / frontend clients
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
 // ==========================================
 // ROOT HEALTH / API OVERVIEW ENDPOINT
 // ==========================================
@@ -836,9 +847,9 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start the server on Port 3000
-const server = app.listen(PORT, () => {
-    console.log(`[🚀] CostumeCloset Server is running at http://localhost:${PORT}`);
+// Start the server (binds to 0.0.0.0 for container hosting like Render)
+const server = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`[🚀] CostumeCloset Server is running at http://0.0.0.0:${PORT}`);
 });
 
 module.exports = { app, server };
