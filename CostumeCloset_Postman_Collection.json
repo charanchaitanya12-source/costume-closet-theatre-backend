@@ -1,0 +1,788 @@
+{
+  "info": {
+    "_postman_id": "c1f7a4e2-89b2-4d2a-96e5-costumecloset-theatre",
+    "name": "CostumeCloset Theatre API",
+    "description": "Complete Postman collection for CostumeCloset Theatre Backend Assessment.\nIncludes full CRUD for Actors, Costumes, and Hires, search filters, the No-Double-Booking verification scenarios, and input validation tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "tempActorId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "tempCostumeId",
+      "value": "15",
+      "type": "string"
+    },
+    {
+      "key": "tempHireId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Actors",
+      "item": [
+        {
+          "name": "Get All Actors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actors",
+              "host": ["{{baseUrl}}"],
+              "path": ["actors"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Response is an array of actors\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get One Actor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actors/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["actors", "2"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Actor contains id and name\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.expect(jsonData).to.have.property(\"name\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Actor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Laurence Olivier\",\n    \"email\": \"laurence@theatre.org\",\n    \"phone\": \"555-0105\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/actors",
+              "host": ["{{baseUrl}}"],
+              "path": ["actors"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"Actor created has an ID\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.collectionVariables.set(\"tempActorId\", jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Actor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Laurence Olivier (Knighted)\",\n    \"email\": \"laurence.sir@theatre.org\",\n    \"phone\": \"555-9999\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/actors/{{tempActorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["actors", "{{tempActorId}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Actor",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actors/{{tempActorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["actors", "{{tempActorId}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Costumes",
+      "item": [
+        {
+          "name": "Get All Costumes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/costumes",
+              "host": ["{{baseUrl}}"],
+              "path": ["costumes"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Costumes is an array\", function () {",
+                  "    pm.expect(Array.isArray(pm.response.json())).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search Costumes by Era (Medieval)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/costumes?era=Medieval",
+              "host": ["{{baseUrl}}"],
+              "path": ["costumes"],
+              "query": [
+                {
+                  "key": "era",
+                  "value": "Medieval"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Every returned costume belongs to Medieval era\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    jsonData.forEach(function(item) {",
+                  "        pm.expect(item.era.toLowerCase()).to.eql(\"medieval\");",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get One Costume",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/costumes/15",
+              "host": ["{{baseUrl}}"],
+              "path": ["costumes", "15"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Costume 15 has era and name\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.eql(15);",
+                  "    pm.expect(jsonData.era).to.eql(\"Medieval\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Costume",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Robin Hood Archer Tunic\",\n    \"era\": \"Medieval\",\n    \"category\": \"Forester\",\n    \"size\": \"M\",\n    \"rental_price\": 35.00,\n    \"status\": \"available\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/costumes",
+              "host": ["{{baseUrl}}"],
+              "path": ["costumes"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"Response contains created costume id\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.collectionVariables.set(\"tempCostumeId\", jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Costume",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Robin Hood Archer Tunic (Upgraded)\",\n    \"rental_price\": 40.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/costumes/{{tempCostumeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["costumes", "{{tempCostumeId}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Costume",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/costumes/{{tempCostumeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["costumes", "{{tempCostumeId}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Hires",
+      "item": [
+        {
+          "name": "Get All Hires (Relational JOIN)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hires",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Hires contain joined actor_name and costume_name\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.expect(jsonData[0]).to.have.property(\"actor_name\");",
+                  "        pm.expect(jsonData[0]).to.have.property(\"costume_name\");",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Hire",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"actor_id\": 2,\n    \"costume_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hires",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"Hire created has an ID\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "    pm.collectionVariables.set(\"tempHireId\", jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get One Hire",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hires/{{tempHireId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires", "{{tempHireId}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Hire",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"hire_date\": \"2026-11-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hires/{{tempHireId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires", "{{tempHireId}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Return Costume (by Hire ID)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hires/{{tempHireId}}/return",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires", "{{tempHireId}}", "return"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Return Costume (by Costume ID payload)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"costume_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hires/return",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires", "return"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 or 404\", function () {",
+                  "    pm.expect([200, 404]).to.include(pm.response.code);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Double Booking Scenarios (Task 5)",
+      "item": [
+        {
+          "name": "TEST 1 - Hire Costume 15 to Asha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"actor_name\": \"Asha\",\n    \"costume_id\": 15\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hires",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TEST 1: Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"TEST 1: Hire created for Costume 15\", function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.hire.costume_id).to.eql(15);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "TEST 2 - Attempt Double Booking to Ravi",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"actor_name\": \"Ravi\",\n    \"costume_id\": 15\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hires",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TEST 2: Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test(\"TEST 2: Error message is 'Costume 15 is already hired'\", function () {",
+                  "    var json = pm.response.json();",
+                  "    var msg = json.error || json.message;",
+                  "    pm.expect(msg).to.eql(\"Costume 15 is already hired\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "TEST 3a - Return Costume 15 from Asha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"costume_id\": 15\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hires/return",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires", "return"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TEST 3a: Return returns 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"TEST 3a: Costume 15 returned successfully\", function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.status).to.eql(\"returned\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "TEST 3b - Hire Costume 15 to Ravi after Return",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"actor_name\": \"Ravi\",\n    \"costume_id\": 15\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hires",
+              "host": ["{{baseUrl}}"],
+              "path": ["hires"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TEST 3b: Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"TEST 3b: Ravi successfully hired Costume 15\", function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.hire.costume_id).to.eql(15);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Validation",
+      "item": [
+        {
+          "name": "Validation Error - Missing Costume Era",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Period Cap\",\n    \"era\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/costumes",
+              "host": ["{{baseUrl}}"],
+              "path": ["costumes"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Returns validation error message for era\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error\");",
+                  "    pm.expect(jsonData.error).to.include(\"Costume era is required\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+POSTMAN COLLECTION EXECUTION REPORT
+Collection: CostumeCloset Theatre API
+Timestamp: 2026-11-15T16:03:09.237Z
+Total Requests: 22
+----------------------------------------------------------------------
+
+[#1] Actors > Get All Actors
+  Request: GET /actors
+  Response Status: HTTP 200
+  Response Body: [{"id":1,"name":"Sarah Bernhardt","email":"sarah@theatre.org","phone":"555-0101"},{"id":2,"name":"Edwin Booth","email":"edwin@theatre.org","phone":"555-0102"},{"id":3,"name":"Asha","email":"asha@theatre.org","phone":"555-0103"},{"id":4,"name":"Ravi","email":"ravi@theatre.org","phone":"555-0104"}]
+    PASS: Status code is 200
+    PASS: Condition is true
+
+[#2] Actors > Get One Actor
+  Request: GET /actors/2
+  Response Status: HTTP 200
+  Response Body: {"id":2,"name":"Edwin Booth","email":"edwin@theatre.org","phone":"555-0102"}
+    PASS: Status code is 200
+    PASS: Object has property "id"
+    PASS: Object has property "name"
+
+[#3] Actors > Add Actor
+  Request: POST /actors
+  Response Status: HTTP 201
+  Response Body: {"message":"Actor created successfully","id":13,"actor":{"id":13,"name":"Laurence Olivier","email":"laurence@theatre.org","phone":"555-0105"}}
+    PASS: Status code is 201
+    PASS: Object has property "id"
+
+[#4] Actors > Update Actor
+  Request: PUT /actors/13
+  Response Status: HTTP 200
+  Response Body: {"message":"Actor updated successfully","updatedId":13}
+    PASS: Status code is 200
+
+[#5] Actors > Delete Actor
+  Request: DELETE /actors/13
+  Response Status: HTTP 200
+  Response Body: {"message":"Actor with ID 13 deleted successfully."}
+    PASS: Status code is 200
+
+[#6] Costumes > Get All Costumes
+  Request: GET /costumes
+  Response Status: HTTP 200
+  Response Body: [{"id":1,"name":"Victorian Ballgown","category":"Period","size":"M","rental_price":45,"status":"rented","era":"Victorian"},{"id":2,"name":"Hamlet Doublet","category":"Shakespearean","size":"L","rental_price":35,"status":"available","era":"Renaissance"},{"id":3,"name":"Phantom Cloak","category":"Gothic","size":"XL","rental_price":25,"status":"rented","era":"Gothic"},{"id":15,"name":"Medieval Knight Armor (Polished)","category":"Armor","size":"L","rental_price":55,"status":"available","era":"Medieval"}]
+    PASS: Status code is 200
+    PASS: Condition is true
+
+[#7] Costumes > Search Costumes by Era (Medieval)
+  Request: GET /costumes?era=Medieval
+  Response Status: HTTP 200
+  Response Body: [{"id":15,"name":"Medieval Knight Armor (Polished)","category":"Armor","size":"L","rental_price":55,"status":"available","era":"Medieval"}]
+    PASS: Status code is 200
+    PASS: Value matches expected "medieval"
+
+[#8] Costumes > Get One Costume
+  Request: GET /costumes/15
+  Response Status: HTTP 200
+  Response Body: {"id":15,"name":"Medieval Knight Armor (Polished)","category":"Armor","size":"L","rental_price":55,"status":"available","era":"Medieval"}
+    PASS: Status code is 200
+    PASS: Value matches expected "15"
+    PASS: Value matches expected "Medieval"
+
+[#9] Costumes > Add Costume
+  Request: POST /costumes
+  Response Status: HTTP 201
+  Response Body: {"message":"Costume created successfully","id":25,"costume":{"id":25,"name":"Robin Hood Archer Tunic","era":"Medieval","category":"Forester","size":"M","rental_price":35,"status":"available"}}
+    PASS: Status code is 201
+    PASS: Object has property "id"
+
+[#10] Costumes > Update Costume
+  Request: PUT /costumes/25
+  Response Status: HTTP 200
+  Response Body: {"message":"Costume updated successfully","updatedId":25}
+    PASS: Status code is 200
+
+[#11] Costumes > Delete Costume
+  Request: DELETE /costumes/25
+  Response Status: HTTP 200
+  Response Body: {"message":"Costume with ID 25 deleted successfully."}
+    PASS: Status code is 200
+
+[#12] Hires > Get All Hires (Relational JOIN)
+  Request: GET /hires
+  Response Status: HTTP 200
+  Response Body: [{"hire_id":2,"hire_date":"2026-11-12","return_date":null,"hire_status":"active","actor_id":2,"actor_name":"Edwin Booth","actor_email":"edwin@theatre.org","costume_id":3,"costume_name":"Phantom Cloak","costume_era":"Gothic","costume_category":"Gothic","rental_price":25},{"hire_id":3,"hire_date":"2026-11-15 14:19:02","return_date":"2026-11-15T14:19:02.912Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":4,"hire_date":"2026-11-15 14:19:02","return_date":"2026-11-15T14:19:13.645Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":5,"hire_date":"2026-11-15 14:19:13","return_date":"2026-11-15T14:19:13.693Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":6,"hire_date":"2026-11-15 14:19:48","return_date":"2026-11-15T14:19:48.615Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":7,"hire_date":"2026-11-15 14:19:48","return_date":"2026-11-15T14:19:48.653Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":8,"hire_date":"2026-11-15 14:21:37","return_date":"2026-11-15T14:21:37.380Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":9,"hire_date":"2026-11-15 14:21:37","return_date":"2026-11-15T14:21:37.422Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":10,"hire_date":"2026-11-15 14:27:41","return_date":"2026-11-15T14:27:41.832Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":11,"hire_date":"2026-11-15 14:27:41","return_date":"2026-11-15T14:27:41.860Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":12,"hire_date":"2026-11-15 15:55:12","return_date":"2026-11-15T15:55:12.479Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":13,"hire_date":"2026-11-15 15:55:12","return_date":"2026-11-15T15:55:12.522Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":14,"hire_date":"2026-11-15 15:57:08","return_date":"2026-11-15T15:57:08.643Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":15,"hire_date":"2026-11-15 15:57:08","return_date":"2026-11-15T15:57:08.680Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":16,"hire_date":"2026-11-15 15:58:34","return_date":"2026-11-15T15:58:34.169Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":17,"hire_date":"2026-11-15 15:58:34","return_date":"2026-11-15T15:58:34.208Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":18,"hire_date":"2026-11-15","return_date":"2026-11-15T16:00:32.741Z","hire_status":"returned","actor_id":2,"actor_name":"Edwin Booth","actor_email":"edwin@theatre.org","costume_id":2,"costume_name":"Hamlet Doublet","costume_era":"Renaissance","costume_category":"Shakespearean","rental_price":35},{"hire_id":19,"hire_date":"2026-11-15 16:00:32","return_date":"2026-11-15T16:00:32.792Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":20,"hire_date":"2026-11-15 16:00:32","return_date":"2026-11-15T16:00:32.840Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":21,"hire_date":"2026-11-15","return_date":"2026-11-15T16:01:05.643Z","hire_status":"returned","actor_id":2,"actor_name":"Edwin Booth","actor_email":"edwin@theatre.org","costume_id":2,"costume_name":"Hamlet Doublet","costume_era":"Renaissance","costume_category":"Shakespearean","rental_price":35},{"hire_id":22,"hire_date":"2026-11-15 16:01:05","return_date":"2026-11-15T16:01:05.691Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":23,"hire_date":"2026-11-15 16:01:05","return_date":"2026-11-15T16:01:05.739Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":24,"hire_date":"2026-11-15 16:02:53","return_date":"2026-11-15T16:02:53.057Z","hire_status":"returned","actor_id":3,"actor_name":"Asha","actor_email":"asha@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55},{"hire_id":25,"hire_date":"2026-11-15 16:02:53","return_date":"2026-11-15T16:02:53.107Z","hire_status":"returned","actor_id":4,"actor_name":"Ravi","actor_email":"ravi@theatre.org","costume_id":15,"costume_name":"Medieval Knight Armor (Polished)","costume_era":"Medieval","costume_category":"Armor","rental_price":55}]
+    PASS: Status code is 200
+    PASS: Object has property "actor_name"
+    PASS: Object has property "costume_name"
+
+[#13] Hires > Add Hire
+  Request: POST /hires
+  Response Status: HTTP 201
+  Response Body: {"message":"Hire created successfully","id":26,"hire":{"id":26,"actor_id":2,"costume_id":2,"hire_date":"2026-11-15T16:03:09.364Z","status":"active"}}
+    PASS: Status code is 201
+    PASS: Object has property "id"
+
+[#14] Hires > Get One Hire
+  Request: GET /hires/26
+  Response Status: HTTP 200
+  Response Body: {"hire_id":26,"hire_date":"2026-11-15 16:03:09","return_date":null,"hire_status":"active","actor_id":2,"actor_name":"Edwin Booth","actor_email":"edwin@theatre.org","costume_id":2,"costume_name":"Hamlet Doublet","costume_era":"Renaissance","costume_category":"Shakespearean","rental_price":35}
+    PASS: Status code is 200
+
+[#15] Hires > Update Hire
+  Request: PUT /hires/26
+  Response Status: HTTP 200
+  Response Body: {"message":"Hire updated successfully","updatedId":26}
+    PASS: Status code is 200
+
+[#16] Hires > Return Costume (by Hire ID)
+  Request: PUT /hires/26/return
+  Response Status: HTTP 200
+  Response Body: {"message":"Costume 2 returned successfully. Hire 26 closed.","hire_id":26,"costume_id":2,"return_date":"2026-11-15T16:03:09.382Z","status":"returned"}
+    PASS: Status code is 200
+
+[#17] Hires > Return Costume (by Costume ID payload)
+  Request: POST /hires/return
+  Response Status: HTTP 404
+  Response Body: {"error":"No active hire found for Costume ID 2."}
+    PASS: Includes "404"
+
+[#18] Double Booking Scenarios (Task 5) > TEST 1 - Hire Costume 15 to Asha
+  Request: POST /hires
+  Response Status: HTTP 201
+  Response Body: {"message":"Hire created successfully","id":27,"hire":{"id":27,"actor_id":3,"costume_id":15,"hire_date":"2026-11-15T16:03:09.422Z","status":"active"}}
+    PASS: Status code is 201
+    PASS: Value matches expected "15"
+
+[#19] Double Booking Scenarios (Task 5) > TEST 2 - Attempt Double Booking to Ravi
+  Request: POST /hires
+  Response Status: HTTP 409
+  Response Body: {"error":"Costume 15 is already hired","message":"Costume 15 is already hired"}
+    PASS: Status code is 409
+    PASS: Value matches expected "Costume 15 is already hired"
+
+[#20] Double Booking Scenarios (Task 5) > TEST 3a - Return Costume 15 from Asha
+  Request: POST /hires/return
+  Response Status: HTTP 200
+  Response Body: {"message":"Costume 15 returned successfully.","hire_id":27,"costume_id":15,"return_date":"2026-11-15T16:03:09.426Z","status":"returned"}
+    PASS: Status code is 200
+    PASS: Value matches expected "returned"
+
+[#21] Double Booking Scenarios (Task 5) > TEST 3b - Hire Costume 15 to Ravi after Return
+  Request: POST /hires
+  Response Status: HTTP 201
+  Response Body: {"message":"Hire created successfully","id":28,"hire":{"id":28,"actor_id":4,"costume_id":15,"hire_date":"2026-11-15T16:03:09.469Z","status":"active"}}
+    PASS: Status code is 201
+    PASS: Value matches expected "15"
+
+[#22] Validation > Validation Error - Missing Costume Era
+  Request: POST /costumes
+  Response Status: HTTP 400
+  Response Body: {"error":"Validation error: Costume era is required."}
+    PASS: Status code is 400
+    PASS: Object has property "error"
+    PASS: Includes "Costume era is required"
+
+======================================================================
+SUMMARY: 40/40 Assertions Passed (0 Failed)
+======================================================================
